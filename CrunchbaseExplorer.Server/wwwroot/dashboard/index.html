@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crunchbase Explorer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dashboard/styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-container">
+                <div class="header-left">
+                    <a href="/dashboard" class="brand">
+                        <div class="brand-logo">C</div>
+                        <span class="brand-text">Crunchbase</span>
+                    </a>
+                    <nav class="main-nav">
+                        <a href="#" class="nav-item active" data-section="organizations">Organizations</a>
+                        <a href="#" class="nav-item" data-section="people">People</a>
+                        <a href="#" class="nav-item" data-section="funding-rounds">Funding Rounds</a>
+                        <a href="#" class="nav-item" data-section="investments">Investments</a>
+                        <a href="#" class="nav-item" data-section="acquisitions">Acquisitions</a>
+                        <a href="#" class="nav-item" data-section="events">Events</a>
+                    </nav>
+                </div>
+                <div class="header-right">
+                    <div class="global-search">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                        <input type="text" placeholder="Search..." id="globalSearchInput">
+                        <span class="kbd">⌘K</span>
+                    </div>
+                    <button class="btn-signin">Sign In</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="container">
+                    <div class="page-title-row">
+                        <div>
+                            <h1 class="page-title" id="pageTitle">Organizations</h1>
+                            <p class="page-subtitle" id="pageSubtitle">Discover and track companies</p>
+                        </div>
+                        <div class="page-actions">
+                            <button class="btn-icon" id="savedFiltersBtn" title="Saved Filters">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                </svg>
+                            </button>
+                            <button class="btn-icon" id="exportBtn" title="Export">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="7 10 12 15 17 10"/>
+                                    <line x1="12" y1="15" x2="12" y2="3"/>
+                                </svg>
+                            </button>
+                            <button class="btn-secondary" id="columnsBtn">
+                                Columns
+                                <svg class="icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Toolbar -->
+            <div class="filter-toolbar">
+                <div class="container">
+                    <div class="toolbar-row">
+                        <button class="btn-filter" id="toggleFilters">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                            </svg>
+                            Filters
+                        </button>
+                        <div class="toolbar-search">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="m21 21-4.35-4.35"/>
+                            </svg>
+                            <input type="text" placeholder="Search..." id="tableSearch">
+                        </div>
+                        <div class="filter-tags" id="activeFilterTags"></div>
+                        <div class="toolbar-spacer"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="container">
+                <div class="content-grid">
+                    <!-- Filters Sidebar -->
+                    <aside class="filters-panel" id="filtersPanel">
+                        <div class="panel-header">
+                            <h3>Filters</h3>
+                            <button class="btn-text-link" id="clearAllBtn">Clear all</button>
+                        </div>
+                        <div class="panel-content" id="filtersContainer">
+                            <!-- Dynamic filters -->
+                        </div>
+                    </aside>
+
+                    <!-- Table Section -->
+                    <section class="table-section">
+                        <div class="table-container">
+                            <table class="data-table" id="dataTable">
+                                <thead id="tableHead"></thead>
+                                <tbody id="tableBody"></tbody>
+                            </table>
+                            
+                            <!-- Loading State -->
+                            <div class="loading-overlay" id="loadingOverlay">
+                                <div class="spinner-large"></div>
+                            </div>
+                            
+                            <!-- Empty State -->
+                            <div class="empty-state" id="emptyState">
+                                <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <circle cx="11" cy="11" r="8"/>
+                                    <path d="m21 21-4.35-4.35"/>
+                                </svg>
+                                <h3>No results found</h3>
+                                <p>Try adjusting your filters or search query</p>
+                            </div>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="pagination" id="paginationBar">
+                            <div class="pagination-left">
+                                <select class="select-small" id="pageSizeSelect">
+                                    <option value="10">10</option>
+                                    <option value="25" selected>25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                <span class="pagination-text">
+                                    Showing <strong id="startRange">0</strong>-<strong id="endRange">0</strong> of <strong id="totalCount">0</strong>
+                                </span>
+                            </div>
+                            <div class="pagination-center" id="paginationControls">
+                                <button class="page-btn" id="prevPageBtn" disabled>
+                                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="15 18 9 12 15 6"/>
+                                    </svg>
+                                </button>
+                                <div class="page-numbers" id="pageNumbers"></div>
+                                <button class="page-btn" id="nextPageBtn" disabled>
+                                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="9 18 15 12 9 6"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+
+        <!-- Detail Modal -->
+        <div class="modal" id="detailModal">
+            <div class="modal-backdrop" id="modalBackdrop"></div>
+            <div class="modal-wrapper">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="modal-close" id="modalClose">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modalBody"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Column Chooser Dropdown -->
+        <div class="dropdown" id="columnDropdown" style="display: none;">
+            <div class="dropdown-header">Choose columns</div>
+            <div class="dropdown-list" id="columnList"></div>
+            <div class="dropdown-footer">
+                <button class="btn-text-link" id="resetColumnsBtn">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/dashboard/app.js"></script>
+</body>
+</html>

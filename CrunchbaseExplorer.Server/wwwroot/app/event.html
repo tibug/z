@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event - Crunchbase Explorer</title>
+    <link rel="stylesheet" href="/app/detail-styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="detail-navbar">
+        <div class="nav-left">
+            <a href="/app" class="back-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"/>
+                </svg>
+                Back to Explorer
+            </a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">Event</span>
+        </div>
+    </nav>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading event details...</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="error-state" style="display: none;">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <h2>Event Not Found</h2>
+        <p>The event you're looking for doesn't exist or has been removed.</p>
+        <a href="/app" class="btn-primary">Return to Explorer</a>
+    </div>
+
+    <!-- Main Content -->
+    <main id="mainContent" class="detail-container" style="display: none;">
+        <!-- Header Section -->
+        <header class="detail-header">
+            <div class="header-main">
+                <div class="header-avatar" id="eventAvatar">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
+                </div>
+                <div class="header-info">
+                    <div class="header-badges" id="headerBadges"></div>
+                    <h1 class="header-title" id="eventName">Loading...</h1>
+                    <p class="header-subtitle" id="eventSubtitle"></p>
+                    <div class="header-meta" id="headerMeta"></div>
+                </div>
+                <div class="header-rank" id="rankCard" style="display: none;">
+                    <span class="rank-label">Rank</span>
+                    <span class="rank-value" id="rankValue"></span>
+                    <div class="rank-delta" id="rankDelta"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Stats Grid -->
+        <section class="stats-grid" id="statsGrid"></section>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Main Column -->
+            <div class="main-column">
+                <!-- About Section -->
+                <section class="detail-card" id="aboutSection" style="display: none;">
+                    <h3 class="card-title">About This Event</h3>
+                    <div class="card-content">
+                        <p id="description"></p>
+                    </div>
+                </section>
+
+                <!-- Speakers Section -->
+                <section class="detail-card" id="speakersSection" style="display: none;">
+                    <h3 class="card-title">Speakers</h3>
+                    <div class="card-content">
+                        <div class="participants-grid" id="speakersGrid"></div>
+                    </div>
+                </section>
+
+                <!-- Sponsors Section -->
+                <section class="detail-card" id="sponsorsSection" style="display: none;">
+                    <h3 class="card-title">Sponsors</h3>
+                    <div class="card-content">
+                        <div class="participants-grid" id="sponsorsGrid"></div>
+                    </div>
+                </section>
+
+                <!-- Contestants Section -->
+                <section class="detail-card" id="contestantsSection" style="display: none;">
+                    <h3 class="card-title">Contestants</h3>
+                    <div class="card-content">
+                        <div class="participants-grid" id="contestantsGrid"></div>
+                    </div>
+                </section>
+
+                <!-- Organizers Section -->
+                <section class="detail-card" id="organizersSection" style="display: none;">
+                    <h3 class="card-title">Organizers</h3>
+                    <div class="card-content">
+                        <div class="participants-grid" id="organizersGrid"></div>
+                    </div>
+                </section>
+
+                <!-- Exhibitors Section -->
+                <section class="detail-card" id="exhibitorsSection" style="display: none;">
+                    <h3 class="card-title">Exhibitors</h3>
+                    <div class="card-content">
+                        <div class="participants-grid" id="exhibitorsGrid"></div>
+                    </div>
+                </section>
+
+                <!-- Press Section -->
+                <section class="detail-card" id="pressSection" style="display: none;">
+                    <h3 class="card-title">News & Press</h3>
+                    <div class="card-content">
+                        <div class="press-list" id="pressList"></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <!-- Event Details -->
+                <section class="detail-card">
+                    <h3 class="card-title">Event Details</h3>
+                    <div class="card-content">
+                        <dl class="detail-list" id="eventDetails"></dl>
+                    </div>
+                </section>
+
+                <!-- Location Section -->
+                <section class="detail-card" id="locationSection" style="display: none;">
+                    <h3 class="card-title">Location</h3>
+                    <div class="card-content">
+                        <div class="location-info" id="locationInfo"></div>
+                    </div>
+                </section>
+
+                <!-- Links Section -->
+                <section class="detail-card" id="linksSection" style="display: none;">
+                    <h3 class="card-title">Links</h3>
+                    <div class="card-content">
+                        <div class="links-list" id="linksList"></div>
+                    </div>
+                </section>
+
+                <!-- Ranking Trends -->
+                <section class="detail-card" id="rankingSection" style="display: none;">
+                    <h3 class="card-title">Ranking Trends</h3>
+                    <div class="card-content">
+                        <div class="rank-trends" id="rankTrends"></div>
+                    </div>
+                </section>
+
+                <!-- Aliases Section -->
+                <section class="detail-card" id="aliasesSection" style="display: none;">
+                    <h3 class="card-title">Also Known As</h3>
+                    <div class="card-content">
+                        <div class="aliases-list" id="aliasesList"></div>
+                    </div>
+                </section>
+            </aside>
+        </div>
+    </main>
+
+    <script src="/app/event-detail.js"></script>
+</body>
+</html>

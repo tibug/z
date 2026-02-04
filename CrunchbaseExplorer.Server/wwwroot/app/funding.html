@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funding Round - Crunchbase Explorer</title>
+    <link rel="stylesheet" href="/app/detail-styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="detail-navbar">
+        <div class="nav-left">
+            <a href="/app" class="back-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"/>
+                </svg>
+                Back to Explorer
+            </a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">Funding Round</span>
+        </div>
+    </nav>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading funding round details...</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="error-state" style="display: none;">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <h2>Funding Round Not Found</h2>
+        <p>The funding round you're looking for doesn't exist or has been removed.</p>
+        <a href="/app" class="btn-primary">Return to Explorer</a>
+    </div>
+
+    <!-- Main Content -->
+    <main id="mainContent" class="detail-container" style="display: none;">
+        <!-- Header Section -->
+        <header class="detail-header">
+            <div class="header-main">
+                <div class="header-avatar" id="fundingAvatar">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23"/>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                </div>
+                <div class="header-info">
+                    <div class="header-badges" id="headerBadges"></div>
+                    <h1 class="header-title" id="roundName">Loading...</h1>
+                    <p class="header-subtitle" id="fundedOrgLink"></p>
+                    <div class="header-meta" id="headerMeta"></div>
+                </div>
+                <div class="header-rank" id="rankCard" style="display: none;">
+                    <span class="rank-label">Rank</span>
+                    <span class="rank-value" id="rankValue"></span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Stats Grid -->
+        <section class="stats-grid" id="statsGrid"></section>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Main Column -->
+            <div class="main-column">
+                <!-- About Section -->
+                <section class="detail-card" id="aboutSection" style="display: none;">
+                    <h3 class="card-title">About This Round</h3>
+                    <div class="card-content">
+                        <p id="description"></p>
+                    </div>
+                </section>
+
+                <!-- Funded Organization Section -->
+                <section class="detail-card" id="fundedOrgSection" style="display: none;">
+                    <h3 class="card-title">Funded Organization</h3>
+                    <div class="card-content">
+                        <div class="funded-org-card" id="fundedOrgCard"></div>
+                    </div>
+                </section>
+
+                <!-- Investors Section -->
+                <section class="detail-card" id="investorsSection" style="display: none;">
+                    <h3 class="card-title">Investors</h3>
+                    <div class="card-content">
+                        <div class="investors-grid" id="investorsGrid"></div>
+                    </div>
+                </section>
+
+                <!-- Categories Section -->
+                <section class="detail-card" id="categoriesSection" style="display: none;">
+                    <h3 class="card-title">Industries & Categories</h3>
+                    <div class="card-content">
+                        <div class="tags-list" id="categoriesList"></div>
+                    </div>
+                </section>
+
+                <!-- Press Section -->
+                <section class="detail-card" id="pressSection" style="display: none;">
+                    <h3 class="card-title">News & Press</h3>
+                    <div class="card-content">
+                        <div class="press-list" id="pressList"></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <!-- Round Details -->
+                <section class="detail-card">
+                    <h3 class="card-title">Round Details</h3>
+                    <div class="card-content">
+                        <dl class="detail-list" id="roundDetails"></dl>
+                    </div>
+                </section>
+
+                <!-- Valuation Section -->
+                <section class="detail-card" id="valuationSection" style="display: none;">
+                    <h3 class="card-title">Valuation</h3>
+                    <div class="card-content">
+                        <dl class="detail-list" id="valuationDetails"></dl>
+                    </div>
+                </section>
+
+                <!-- Dates Section -->
+                <section class="detail-card">
+                    <h3 class="card-title">Timeline</h3>
+                    <div class="card-content">
+                        <dl class="detail-list" id="dateDetails"></dl>
+                    </div>
+                </section>
+            </aside>
+        </div>
+    </main>
+
+    <script src="/app/funding-detail.js"></script>
+</body>
+</html>
